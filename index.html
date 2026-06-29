@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weezer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .wrapper {
+            position: relative;
+            display: inline-flex;
+        }
+        img {
+            max-width: 90vw;
+            max-height: 90vh;
+            display: block;
+        }
+        #label {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Impact, sans-serif;
+            font-size: clamp(3rem, 12vw, 9rem);
+            color: #fff;
+            text-shadow: 0 0 20px #000, 0 0 40px #000, 4px 4px 0 #000;
+            letter-spacing: 0.05em;
+            pointer-events: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <audio id="audio" src="Song.mp3" preload="auto"></audio>
+
+    <div class="wrapper">
+        <img id="img" src="Image.jpg" alt="Weezer">
+        <div id="label">Weezer</div>
+    </div>
+
+    <script>
+        const img = document.getElementById('img');
+        const audio = document.getElementById('audio');
+        let playbackRate = 1.0;
+
+        setInterval(() => {
+            img.style.filter = `hue-rotate(${Math.floor(Math.random() * 360)}deg)`;
+        }, 1000);
+
+        audio.addEventListener('ended', () => {
+            playbackRate = Math.max(0.05, playbackRate - 0.05);
+            audio.playbackRate = playbackRate;
+            audio.play();
+        });
+
+        audio.addEventListener('canplay', () => {
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+        }, { once: true });
+    </script>
+</body>
+</html>
